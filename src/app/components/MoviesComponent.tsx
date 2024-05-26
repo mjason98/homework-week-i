@@ -57,7 +57,7 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
   };
 
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-4 gap-5 mx-3 px-4 overflow-auto custom-h">
+    <div className="grid grid-cols-4 lg:grid-cols-5 gap-5 mx-3 px-4 overflow-auto custom-h">
       {filteredMovies.map((movie, index) => (
         <div
           className="flex flex-col items-center justify-between  bg-gray-200 rounded-xl py-3"
@@ -66,7 +66,7 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
           onMouseLeave={handleMouseLeave}
         >
           <Link
-            href={`/movie/${index}`}
+            href={`/movie/${movie.rank}`}
             className="flex flex-col gap-3 p-2 items-stretch space-y-4 w-full"
           >
             <Image

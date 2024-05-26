@@ -1,34 +1,14 @@
 "use client";
-// import CountryShow from "../components/CountryShow";
-import Image from "next/image";
-import { Movie } from "@/app/types/movie";
-import { useState } from "react";
+import ShowMoviesComponent from "@/app/components/ShowMovieComponent";
+import Link from "next/link";
 
 const CountryDetails = ({ params }: { params: { movieId: number } }) => {
   const { movieId } = params;
-  const [movie, setMovie] = useState<Movie>();
-  
 
   return (
     <div className="flex flex-col remain-h items-center justify-center">
-      <div>back to list page</div>
-      {/* <CountryShow countryName={countryName} /> */}
-      {movie && (
-      <div>
-      <Image
-        className="w-full max-w-[400px] max-h-[500px] object-cover rounded-xl"
-        src={movie.image}
-        alt={movie.name}
-        width="300"
-        height="600"
-        priority
-      />
-      <div className="text-5xl">
-        {movie.name} ({movie.year}){" "}
-      </div>
-      <div className="text-2xl">⭐ {movie.point} </div>
-      </div>
-        )}
+      <Link href="/" className="text-xl m-5 bg-amber-500 p-3 rounded-xl text-amber-100 hover:bg-amber-600">back to list page</Link>
+      <ShowMoviesComponent pos={movieId}/>
     </div>
   );
 };
