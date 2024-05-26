@@ -6,13 +6,13 @@ import MoviesComponent from './components/MoviesComponent';
 const Home: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("")
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     setSearchTerm(e.target.value);
   };
 
   return (
     <div className='flex flex-col w-full items-center gap-5 p-5'>
-      <div className='jaro text-8xl'> Fan Movie List </div>
+      <div className='jaro text-8xl'> 250 Top Movies </div>
       <input
         type="text"
         placeholder="Search movies..."

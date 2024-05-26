@@ -28,12 +28,19 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
       }
   
       const data = await response.json();
+    
+      localStorage.setItem('movieData', JSON.stringify(data));
+      console.log('Data saved to localStorage');
+
       return data as Movie[];
     } catch (error) {
       console.error('Error fetching data from url:', error);
 
       const res = await fetch(SITE_URL + '/top-250.json');
       const data = await res.json();
+
+      localStorage.setItem('movieData', JSON.stringify(data));
+      console.log('Data saved to localStorage');
       
       return data as Movie[];
     }

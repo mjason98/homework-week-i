@@ -13,13 +13,18 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [favorites, setFavorites] = useState<number[]>([]);
 
-  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+  const [mousePosition, setMousePosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
   const [hoveredMovieId, setHoveredMovieId] = useState<number | null>(null);
-
 
   useEffect(() => {
     fetchMovieData().then((data: Movie[]) => {
-      setMovies(data);
+      const sortedData = data.sort(
+        (a, b) => parseFloat(a.point) - parseFloat(b.point)
+      );
+      setMovies(sortedData);
     });
 
     const seenMovies = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -61,7 +66,7 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
           onMouseLeave={handleMouseLeave}
         >
           <Link
-            href={`/movie/${movie.rank}`}
+            href={`/movie/${index}`}
             className="flex flex-col gap-3 p-2 items-stretch space-y-4 w-full"
           >
             <Image
@@ -69,7 +74,7 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
               src={movie.image}
               alt={movie.name}
               width="300"
-              height="300"
+              height="600"
               priority
             />
           </Link>
@@ -93,7 +98,10 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
             left: mousePosition.x + 10,
           }}
         >
-          <p>{movies[hoveredMovieId].name} ({movies[hoveredMovieId].year}) ⭐ raiting: {movies[hoveredMovieId].point} </p>
+          <p>
+            {movies[hoveredMovieId].name} ({movies[hoveredMovieId].year}) ⭐
+            raiting: {movies[hoveredMovieId].point}{" "}
+          </p>
         </div>
       )}
     </div>
