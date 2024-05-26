@@ -13,6 +13,10 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [favorites, setFavorites] = useState<number[]>([]);
 
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+  const [hoveredMovieId, setHoveredMovieId] = useState<number | null>(null);
+
+
   useEffect(() => {
     fetchMovieData().then((data: Movie[]) => {
       setMovies(data);
@@ -37,12 +41,24 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
+  const handleMouseMove = (event: React.MouseEvent, movieRank: number) => {
+    setMousePosition({ x: event.clientX, y: event.clientY });
+    setHoveredMovieId(movieRank);
+  };
+
+  const handleMouseLeave = () => {
+    setMousePosition(null);
+    setHoveredMovieId(null);
+  };
+
   return (
-    <div className="grid grid-cols-3 lg:grid-cols-4 gap-5 mx-5">
-      {filteredMovies.map((movie) => (
+    <div className="grid grid-cols-3 lg:grid-cols-4 gap-5 mx-3 px-4 overflow-auto custom-h">
+      {filteredMovies.map((movie, index) => (
         <div
           className="flex flex-col items-center justify-between  bg-gray-200 rounded-xl py-3"
           key={movie.rank}
+          onMouseMove={(e) => handleMouseMove(e, index)}
+          onMouseLeave={handleMouseLeave}
         >
           <Link
             href={`/movie/${movie.rank}`}
@@ -69,6 +85,17 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
           )}
         </div>
       ))}
+      {mousePosition && hoveredMovieId !== null && (
+        <div
+          className="absolute bg-white border border-gray-500 rounded-lg p-2"
+          style={{
+            top: mousePosition.y + 10,
+            left: mousePosition.x + 10,
+          }}
+        >
+          <p>{movies[hoveredMovieId].name} ({movies[hoveredMovieId].year}) ⭐ raiting: {movies[hoveredMovieId].point} </p>
+        </div>
+      )}
     </div>
   );
 };
