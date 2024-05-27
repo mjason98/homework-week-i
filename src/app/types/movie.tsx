@@ -8,8 +8,10 @@ export interface Movie {
 };
 
 export const SITE_URL = 'http://localhost:3000'
-const token = process.env.APIKEY as string;
-console.log('token', token)
+const APIKEY = process.env.APIKEY as string;
+const token = process.env.TOKEN as string;
+
+console.log(APIKEY, token)
 
 export const fetchMovieData = async ():Promise<Movie[]> => {
     const url = 'https://imdb-top-250.p.rapidapi.com/api/imdb-top-250';
@@ -19,7 +21,7 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
         method: 'GET',
         headers: {
           'x-rapidapi-host': 'imdb-top-250.p.rapidapi.com',
-          'x-rapidapi-key': token,
+          'x-rapidapi-key': APIKEY,
         },
       });
   
@@ -28,10 +30,10 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
       }
   
       const data = await response.json();
-    
+      
       localStorage.setItem('movieData', JSON.stringify(data));
       console.log('Data saved to localStorage');
-
+      console.log('Used remote api')
       return data as Movie[];
     } catch (error) {
       console.error('Error fetching data from url:', error);
@@ -41,7 +43,28 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
 
       localStorage.setItem('movieData', JSON.stringify(data));
       console.log('Data saved to localStorage');
-      
+      console.log('Used projet data :(')
       return data as Movie[];
+    }
+  };
+
+
+  export const fetchSingleMovieData = async (movieTitle: string, year: string) => {
+    const encodedTitle = movieTitle;//encodeURIComponent(movieTitle);
+    const apiUrl = `http://www.omdbapi.com/?apikey=${token}&t=${encodedTitle}&y=${year}`;
+    
+    console.log(apiUrl)
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.error('Error fetching movie data:', error);
+      return null;
     }
   };

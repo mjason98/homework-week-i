@@ -66,7 +66,7 @@ const MoviesComponent = ({ searchTerm }: MoviesComponentProps) => {
           onMouseLeave={handleMouseLeave}
         >
           <Link
-            href={`/movie/${movie.rank}`}
+            href={`/movie/${movie.name}/${movie.year}`}
             className="flex flex-col gap-3 p-2 items-stretch space-y-4 w-full"
           >
             <Image
