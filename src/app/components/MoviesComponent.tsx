@@ -22,7 +22,7 @@ const MoviesComponent = ({ movies }: MoviesComponentProps) => {
   const [hoveredMovieId, setHoveredMovieId] = useState<number | null>(null);
 
   useEffect(() => {
-    const seenMovies = JSON.parse(localStorage.getItem("favorites")) || [];
+    const seenMovies = JSON.parse(localStorage.getItem("favorites") || "") || [];
     setFavorites(seenMovies);
   }, []);
 
@@ -106,8 +106,8 @@ const MoviesComponent = ({ movies }: MoviesComponentProps) => {
             }}
           >
             <p>
-              {movies[hoveredMovieId].name} ({movies[hoveredMovieId].year}) ⭐
-              raiting: {movies[hoveredMovieId].point}{" "}
+              {filteredMovies[hoveredMovieId].name} ({filteredMovies[hoveredMovieId].year}) ⭐
+              raiting: {filteredMovies[hoveredMovieId].point}{" "}
             </p>
           </div>
         )}
