@@ -1,26 +1,16 @@
-"use client";
-import React, { useState } from 'react';
 import MoviesComponent from './components/MoviesComponent';
+import { fetchMovieData } from './types/movie';
 
 
-const Home: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>("")
-
-  const handleSearch = (e: any) => {
-    setSearchTerm(e.target.value);
-  };
+const Home = async () => {
+  const data = (await fetchMovieData()).sort(
+          (a, b) => parseFloat(a.point) - parseFloat(b.point)
+        );
 
   return (
     <div className='flex flex-col w-full items-center gap-5 p-5'>
       <div className='jaro text-8xl'> 250 Top Movies </div>
-      <input
-        type="text"
-        placeholder="Search movies..."
-        value={searchTerm}
-        onChange={handleSearch}
-        className="max-w-[80%]  w-[300px] p-3 border-2 border-gray-600 rounded-xl focus:border-gray-600 focus:outline-none"
-      />
-      <MoviesComponent searchTerm={searchTerm} />
+      <MoviesComponent movies={data} />
     </div>
   );
 }

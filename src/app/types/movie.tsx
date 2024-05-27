@@ -1,3 +1,4 @@
+import movietop250data from './top-250.json'
 export interface Movie {
     rank: number;
     image: string;
@@ -11,7 +12,7 @@ export const SITE_URL = 'http://localhost:3000'
 const APIKEY = process.env.APIKEY as string;
 const token = process.env.TOKEN as string;
 
-console.log(APIKEY, token)
+// console.log(APIKEY, token)
 
 export const fetchMovieData = async ():Promise<Movie[]> => {
     const url = 'https://imdb-top-250.p.rapidapi.com/api/imdb-top-250';
@@ -31,18 +32,17 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
   
       const data = await response.json();
       
-      localStorage.setItem('movieData', JSON.stringify(data));
-      console.log('Data saved to localStorage');
       console.log('Used remote api')
       return data as Movie[];
     } catch (error) {
       console.error('Error fetching data from url:', error);
 
-      const res = await fetch(SITE_URL + '/top-250.json');
-      const data = await res.json();
+      // const res = await fetch(SITE_URL + '/top-250.json');
+      // const data = await res.json();
 
-      localStorage.setItem('movieData', JSON.stringify(data));
-      console.log('Data saved to localStorage');
+      const data = movietop250data;
+      console.log(data);
+
       console.log('Used projet data :(')
       return data as Movie[];
     }
@@ -53,7 +53,7 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
     const encodedTitle = movieTitle;//encodeURIComponent(movieTitle);
     const apiUrl = `http://www.omdbapi.com/?apikey=${token}&t=${encodedTitle}&y=${year}`;
     
-    console.log(apiUrl)
+    // console.log(apiUrl)
 
     try {
       const response = await fetch(apiUrl);
@@ -61,7 +61,7 @@ export const fetchMovieData = async ():Promise<Movie[]> => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data)
+      // console.log(data)
       return data;
     } catch (error) {
       console.error('Error fetching movie data:', error);
