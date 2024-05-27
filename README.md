@@ -28,6 +28,7 @@ this project uses [RapidAPi](https://rapidapi.com), specifically [IMDB API](http
 
 The second token belongs to [OMDB](http://www.omdbapi.com), just login and request a free api token.
 
+![image for OMDB](imgs/img2.png)
 
 ### Run
 
